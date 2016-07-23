@@ -1,0 +1,27 @@
+{
+  "name": "node-book-store",
+  "version": "1.0.0",
+  "description": "nline book library with note",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgevc15/node-book-library.git"
+  },
+  "keywords": [
+    "Node.js",
+    "MongoDB",
+    "Express",
+    "3rd",
+    "party",
+    "Api's"
+  ],
+  "author": "George Codat Tudoran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgevc15/node-book-library/issues"
+  },
+  "homepage": "https://github.com/georgevc15/node-book-library#readme"
+}
