@@ -1,0 +1,45 @@
+{
+  "name": "node-book-store",
+  "description": "online book library with node.js",
+  "main": "app.js",
+  "authors": [
+    "George Codat Tudoran"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "Node.js",
+    "MongoDB",
+    "Express",
+    "3rd",
+    "party",
+    "Api's"
+  ],
+  "homepage": "https://github.com/georgevc15/node-book-library",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.6.3"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.min.css",
+        "dist/bootstrap.less"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "less/font-awesome.less",
+        "css/font-awesome.min.css",
+        "scss/font-awesome.scss"
+      ]
+    }
+  }
+}
