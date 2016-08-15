@@ -1,55 +1,51 @@
 var express = require('express');
-
 var bookRouter = express.Router();
+var mongodb = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectID;
+
 
 var router = function(nav) {
 
-var books = [
-		{
-				title: 'Books 1',
-				genre: 'Genre 1',
-				author: 'Author 1',
-				read: false
-		},
-		{
-				title: 'Books 2',
-				genre: 'Genre 2',
-				author: 'Author 2',
-				read: false
-		},
-		{
-				title: 'Books 3',
-				genre: 'Genre 3',
-				author: 'Author 3',
-				read: false
-		},
-		{
-				title: 'Books 4',
-				genre: 'Genre 4',
-				author: 'Author 4',
-				read: false
-		}
-			];
-
 bookRouter.route('/')
-	.get(function(req, res){
-		res.render('bookListView', {
-    	title: 'Books', 
-    	nav: nav,
-	    books: books
-    	
-    	});
+	.get(function(req, res) {
+
+		var url = 'mongodb://localhost/libraryApp';
+		mongodb.connect(url, function(err, db) {
+			var collection = db.collection('books');
+			
+			collection.find({}).toArray(
+				function(err, results) {
+
+					res.render('bookListView', {
+    					title: 'Books', 
+    					nav: nav,
+	  					books: results
+    			});
+
+			});
+		});
 	});
 
 bookRouter.route('/:id')
 	.get(function(req, res){
-		var id = req.params.id;
-		res.render('bookView', {
-	    	title: 'Books', 
-	    	nav: nav,
-		    book: books[id]
-	    	
-	    	});
+		var receivedId = new ObjectId(req.params.id);
+		var url = 'mongodb://localhost/libraryApp';
+		mongodb.connect(url, function(err, db) {
+			var collection = db.collection('books');
+			
+			collection.findOne({_id: receivedId},
+				function(err, results) {
+
+					console.log(results);
+
+					res.render('bookView', {
+    					title: 'Books', 
+    					nav: nav,
+	  					book: results
+    			});
+
+			});
+		});
 	});
 
 	return bookRouter;
