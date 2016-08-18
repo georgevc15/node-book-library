@@ -2,6 +2,8 @@ var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 
+var port = process.env.PORT || 3000;
+
 var books = [
 		{
 				title: 'Books 1',
@@ -34,7 +36,14 @@ var router = function (nav) {
 	adminRouter.route('/addBooks')
 
 				.get(function(req, res) {
-					var url = 'mongodb://localhost/libraryApp';
+					
+					var url = '';
+					if(port === 3000) {	
+						url = 'mongodb://localhost/libraryApp';
+					} else {
+						url = 'mongodb://mongo_usr:mongo_pass@ds161475.mlab.com:61475/book-store';
+					}	
+					
 					mongodb.connect(url, function(err, db) {
 						var collection = db.collection('books');
 						collection.insertMany(books, 
