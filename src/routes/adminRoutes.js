@@ -41,7 +41,7 @@ var router = function (nav) {
 					if(port === 3000) {	
 						url = 'mongodb://localhost/libraryApp';
 					} else {
-						url = 'mongodb://mongo_usr:mongo_pass@ds161475.mlab.com:61475/book-store';
+						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 					}	
 					
 					mongodb.connect(url, function(err, db) {
