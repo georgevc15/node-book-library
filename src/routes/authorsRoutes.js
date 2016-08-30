@@ -10,7 +10,10 @@ var router = function(nav) {
 	
 authorsRouter.route('/')
 	.get(function(req, res) {
-		res.send('I am inside the autors route');
+		res.render('authorsListView', {
+			title: 'Authors',
+			nav: nav
+		});
 	});
 
 
