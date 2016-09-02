@@ -100,7 +100,7 @@
           
           
 
-                 
+             <% for(var i=0; i<authors.length;i++){%> 
               <!--/stories-->
               <div class="row">    
                 <br>
@@ -108,10 +108,10 @@
                   <a class="story-title" href="#"><img alt="" src="http://api.randomuser.me/portraits/thumb/men/58.jpg" style="width:100px;height:100px" class="img-circle"></a>
                 </div>
                 <div class="col-md-10 col-sm-9">
-                  <h3>author name</h3>
+                  <h3><%=authors[i].name%></h3>
                   <div class="row">
                     <div class="col-xs-9">
-                      <h4><span class="label label-default">author info 2</span></h4><h4>
+                      <h4><span class="label label-default"><%=authors[i].genre%></span></h4><h4>
                       <small style="font-family:courier,'new courier';" class="text-muted"><a href="#" class="text-muted"><a href="/authors/10">Read More</a></small>
                       </h4></div>
                     <div class="col-xs-3"></div>
@@ -121,7 +121,7 @@
               </div>
               <hr>
               <!--/stories-->
- 
+              <%}%>
 
         
           
