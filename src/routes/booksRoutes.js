@@ -20,10 +20,10 @@ bookRouter.route('/')
 			var collection = db.collection('books');
 			
 			collection.find({}).toArray(
+				
 				function(err, results) {
-
 					res.render('bookListView', {
-    					title: 'Books', 
+    					title: 'Available books', 
     					nav: nav,
 	  					books: results
     			});
@@ -33,7 +33,7 @@ bookRouter.route('/')
 	});
 
 bookRouter.route('/:id')
-	.get(function(req, res){
+	.get(function(req, res) {
 		var receivedId = new ObjectId(req.params.id);
 		
 	var url = '';
@@ -49,15 +49,12 @@ bookRouter.route('/:id')
 			
 			collection.findOne({_id: receivedId},
 				function(err, results) {
-
-					console.log(results);
-
+					//console.log(results);
 					res.render('bookView', {
-    					title: 'Books', 
+    					title: 'Book details', 
     					nav: nav,
 	  					book: results
     			});
-
 			});
 		});
 	});

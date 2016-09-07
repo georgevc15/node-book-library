@@ -27,12 +27,12 @@ footer {
 
 #masthead {
   min-height:199px;
-  background-color:#000044;
+  background-color:#a94442;
   color:#aaaacc;
 }
 
 #masthead h1 {
-  font-size: 55px;
+  font-size: 45px;
   line-height: 1;
   color:#fefeff;
   margin-top:50px;
@@ -40,7 +40,7 @@ footer {
 
 #masthead .well {
   margin-top:31px;
-  background-color:#111166;
+  background-color:#582928;
   border-color:#000022;
   color:#efefff;
   min-height:127px;
@@ -82,21 +82,21 @@ a,a:hover {
 }
 
 .navbar-bright {
-  background-color:#111166;
+  background-color:#582928;
   color:#fff;
   margin-bottom: 0;
   border-width: 0;
 }
 
 .navbar-bright a, .navbar-bright .navbar-brand, #masthead h4 {
-  color:#ccccdd;
+  color:#fff;
   font-size:14px;
   text-transform: uppercase;
   letter-spacing:.08em;
 }
 
 .navbar-bright li > a:hover {
-  background-color:#000044;
+  background-color:#a94442;
 }
 
 .dropdown-menu {

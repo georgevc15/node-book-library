@@ -28,6 +28,12 @@ var books = [
 				genre: 'Genre 4',
 				author: 'Author 4',
 				read: false
+		},
+		{
+				title: 'The adventures of Peter Pan',
+				genre: 'Genre 1',
+				author: 'Author 1',
+				read: false
 		}
 			];
 
