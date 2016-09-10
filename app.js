@@ -5,7 +5,7 @@ var passport = require('passport');
 var session = require('express-session'); //sesiunile ce tin ce frameworkul express care vor fi folosite de passport ca sa puna informatiile user, password etc
 
 
-var LocalStrategy = require('passport-local').Strategy;
+//var LocalStrategy = require('passport-local').Strategy;
 
 
 
@@ -30,23 +30,38 @@ var authorsRouter = require('./src/routes/authorsRoutes')(nav);
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: false })); // parse application/x-www-form-urlencoded 
 app.use(bodyParser.json()); // parse application/json 
-app.use(cookieParser());
+
+
+//autentificare
+//app.use(cookieParser());
+
+require('./src/authentication/init')(app);
+
 app.use(session({
     secret: 'library',
     resave: false,
     saveUninitialized: false,
     cookie: {  }
-
 }));
-require('./src/config/passport')(app);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+//require('./src/config/passport')(app);
+//end autentificare
+
 
 app.set('views','./src/views');
 app.set('view engine', 'ejs');
+
+
 
 app.use('/Books', bookRouter);
 app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 app.use('/Authors', authorsRouter);
+
 
 app.get('/', function(req, res) {
     res.render('index', {
@@ -54,6 +69,15 @@ app.get('/', function(req, res) {
     	nav: nav
     	});
 });
+
+
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/success',
+    failureRedirect: '/eroare'
+  }))
+
+
+
 
 app.listen(port, function(err) {
     console.log('Server running on port ' + port);
