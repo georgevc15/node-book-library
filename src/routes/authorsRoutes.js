@@ -5,8 +5,9 @@ var ObjectId = require('mongodb').ObjectID;
 
 var port = process.env.PORT || 3000;
 
+
 var router = function(nav) {
-	
+
 authorsRouter.route('/')
 	.get(function(req, res) {
 		
@@ -17,7 +18,7 @@ authorsRouter.route('/')
 		url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 	}	
 
-	mongodb.connect(url, function(err, db){
+	mongodb.connect(url, function(err, db) {
 		var collection = db.collection('authors');
 
 		collection.find({}).toArray(
@@ -80,14 +81,16 @@ authorsRouter.route('/books/:name')
 					function(err, results) {
 						//console.log(results);
 						res.send('Cartii care apartin unui autor');
-						/*res.render('authorView', {
-							title: 'vook belonging to ',
-							nav: nav,
-							author: results
-						});*/
+						//res.render('authorView', {
+							//title: 'vook belonging to ',
+						//	nav: nav,
+							//author: results
+						//});
 				 });
 		 });
 	});	 	
+
+
 
 	return authorsRouter;
 

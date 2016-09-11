@@ -5,9 +5,7 @@ var passport = require('passport');
 var session = require('express-session'); //sesiunile ce tin ce frameworkul express care vor fi folosite de passport ca sa puna informatiile user, password etc
 
 
-//var LocalStrategy = require('passport-local').Strategy;
-
-
+var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 
@@ -33,10 +31,7 @@ app.use(bodyParser.json()); // parse application/json
 
 
 //autentificare
-//app.use(cookieParser());
-
-require('./src/authentication/init')(app);
-
+app.use(cookieParser());
 app.use(session({
     secret: 'library',
     resave: false,
@@ -46,8 +41,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 //require('./src/config/passport')(app);
 //end autentificare
 
@@ -61,20 +54,62 @@ app.use('/Books', bookRouter);
 app.use('/Admin', adminRouter);
 app.use('/Auth', authRouter);
 app.use('/Authors', authorsRouter);
+//app.use('/Authors', passport.authenticationMiddleware(), authorsRouter);
 
 
 app.get('/', function(req, res) {
     res.render('index', {
-    	title: 'Helo from render', 
+    	title: 'Homepage', 
     	nav: nav
     	});
 });
 
 
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/success',
-    failureRedirect: '/eroare'
-  }))
+var mongodb = require('mongodb').MongoClient;
+    
+    passport.serializeUser(function(user, done){
+        console.log('Serialize user called');
+        console.log(user);
+        done(null, user); //user.id
+    });
+    
+    passport.deserializeUser(function(user, done){
+        //mongo find by id daca vrem sa verificam din baza de date
+        console.log('Deserialize user called.');
+        done(null, user);
+    });
+
+
+    passport.use(new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'password'
+    },
+    function(username, password, done) {
+
+    
+    console.log('local strategy called with: '+ username + 'and password: ' + password);
+
+    var url = 'mongodb://localhost/libraryApp';
+
+        mongodb.connect(url, function(err, db) {
+            var collection = db.collection('users');
+            collection.findOne({
+                username: username
+            },
+                function(err, results) {
+                    if(results.password === password) { 
+                        var user = results;
+                        done(null, user);
+                     } else {
+                        done('Bad password', null);
+                     }  
+                }
+            );
+         });
+
+    
+    }));
+
 
 
 
