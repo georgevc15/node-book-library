@@ -7,6 +7,14 @@ var port = process.env.PORT || 3000;
 
 var router = function(nav) {
 
+//securizeaza toata ruta
+bookRouter.use(function(req, res, next) {
+		if(!req.user){
+			res.redirect('/');
+		}
+		next();
+});
+
 bookRouter.route('/')
 	.get(function(req, res) {
 

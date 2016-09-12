@@ -26,22 +26,28 @@ var router = function() {
 				//console.log(user);
 				collection.insert(user, 
 					function(err, results) {
-						//req.login(results.ops[0], function() {
-							res.redirect('/auth/login');
+						req.login(results.ops[0], function() {
+							res.redirect('/auth/profile');
+							  });
 						});
-				});
+				  });
 
 			});
 
-
 	authRouter.route('/signIn')
-		.post(passport.authenticate('local', {
+		.post(passport.authenticate('local', { //gere we can you instead of local google or facebook etc
 			failureRedirect: '/'
 		}), function(req, res) { 
-			res.redirect('/Auth/profile');
+			res.redirect('/auth/profile');
 		});	
 
 	authRouter.route('/profile')
+		.all(function(req, res, next){
+			if(!req.user) { //secure route
+				res.redirect('/');
+			}
+			next();
+		})
 		.get(function(req, res) {
 			res.json(req.user);
 		});	

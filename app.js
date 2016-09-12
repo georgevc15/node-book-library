@@ -85,27 +85,28 @@ var mongodb = require('mongodb').MongoClient;
         passwordField: 'password'
     },
     function(username, password, done) {
+    //console.log('local strategy called with: '+ username + 'and password: ' + password);
 
-    
-    console.log('local strategy called with: '+ username + 'and password: ' + password);
+        var url = 'mongodb://localhost/libraryApp';
 
-    var url = 'mongodb://localhost/libraryApp';
-
-        mongodb.connect(url, function(err, db) {
-            var collection = db.collection('users');
-            collection.findOne({
-                username: username
-            },
-                function(err, results) {
-                    if(results.password === password) { 
-                        var user = results;
-                        done(null, user);
-                     } else {
-                        done('Bad password', null);
-                     }  
-                }
-            );
-         });
+            mongodb.connect(url, function(err, db) {
+                var collection = db.collection('users');
+                collection.findOne({
+                    username: username
+                }, 
+                    function(err, results) {
+                      //console.log('results.password este: '+ results.password);
+                      //console.log(results);
+                        if(results.password === password) { 
+                            var user = results;
+                            done(null, user);
+                         } else {
+                            //done('Bad password', null);
+                            done(null, false, {message: 'Bad password'});
+                         }  
+                    }
+                );
+             });
 
     
     }));
