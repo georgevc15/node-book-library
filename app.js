@@ -20,10 +20,21 @@ var nav = [{
     }];
     
 
+var adminNav = [{
+    Link: '/addbooks',
+    Text: 'Manage books'
+    },
+    {
+     Link: '/addauthors',
+     Text: 'Manage authors'   
+    }
+];
+
 var bookRouter = require('./src/routes/booksRoutes')(nav);
-var adminRouter = require('./src/routes/adminRoutes')(nav);
+var adminRouter = require('./src/routes/adminRoutes')(adminNav);
 var authRouter = require('./src/routes/authRoutes')(nav);
 var authorsRouter = require('./src/routes/authorsRoutes')(nav);
+
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: false })); // parse application/x-www-form-urlencoded 
@@ -51,7 +62,7 @@ app.set('view engine', 'ejs');
 
 
 app.use('/Books', bookRouter);
-app.use('/Admin', adminRouter);
+app.use('/admin', adminRouter);
 app.use('/Auth', authRouter);
 app.use('/Authors', authorsRouter);
 //app.use('/Authors', passport.authenticationMiddleware(), authorsRouter);
@@ -65,29 +76,34 @@ app.get('/', function(req, res) {
 });
 
 
+//authentification 'module'
 var mongodb = require('mongodb').MongoClient;
     
-    passport.serializeUser(function(user, done){
+    passport.serializeUser(function(user, done) {
         console.log('Serialize user called');
         console.log(user);
         done(null, user); //user.id
     });
     
-    passport.deserializeUser(function(user, done){
+    passport.deserializeUser(function(user, done) {
         //mongo find by id daca vrem sa verificam din baza de date
         console.log('Deserialize user called.');
         done(null, user);
     });
 
-
     passport.use(new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password'
     },
+    
     function(username, password, done) {
     //console.log('local strategy called with: '+ username + 'and password: ' + password);
-
-        var url = 'mongodb://localhost/libraryApp';
+         var url = '';
+            if(port === 3000) { 
+                url = 'mongodb://localhost/libraryApp';
+            } else {
+                url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+            }
 
             mongodb.connect(url, function(err, db) {
                 var collection = db.collection('users');
@@ -107,11 +123,8 @@ var mongodb = require('mongodb').MongoClient;
                     }
                 );
              });
-
-    
     }));
-
-
+ //end authenthification
 
 
 

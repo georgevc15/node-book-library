@@ -4,6 +4,12 @@ var mongodb = require('mongodb').MongoClient;
 
 var port = process.env.PORT || 3000;
 
+
+
+
+
+
+
 var books = [
 		{
 				title: 'Books 1',
@@ -63,7 +69,23 @@ var authors = [
 
 
 
-var router = function (nav) {
+var router = function (adminNav) {
+
+	/*adminRouter.use(function(req, res, next) {
+	 		if(username !== 'admin') {
+	 			res.redirect('/');
+	 		}
+	 		next();
+	});*/
+
+	adminRouter.route('/')
+
+				.get(function(req, res) {
+					res.render('adminView', {
+						title: 'Admin page',
+						adminNav: adminNav
+					});
+				});
 
 	adminRouter.route('/addBooks')
 
