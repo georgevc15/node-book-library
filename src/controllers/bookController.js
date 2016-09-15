@@ -6,9 +6,9 @@ var port = process.env.PORT || 3000;
 var bookController = function(bookService, nav) {
 	
 	var middlewareSecureRoute = function(req, res, next) {
-		//if(!req.user){
-			//res.redirect('/');
-		//}
+		/*if(!req.user){
+			res.redirect('/');
+		}*/
 		next();
 	};
 

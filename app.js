@@ -21,11 +21,11 @@ var nav = [{
     
 
 var adminNav = [{
-    Link: '/addbooks',
+    Link: '/admin/manage-books',
     Text: 'Manage books'
     },
     {
-     Link: '/addauthors',
+     Link: '/admin/manage-authors',
      Text: 'Manage authors'   
     }
 ];

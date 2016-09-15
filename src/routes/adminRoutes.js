@@ -5,11 +5,6 @@ var mongodb = require('mongodb').MongoClient;
 var port = process.env.PORT || 3000;
 
 
-
-
-
-
-
 var books = [
 		{
 				title: 'Books 1',
@@ -71,14 +66,29 @@ var authors = [
 
 var router = function (adminNav) {
 
-	/*adminRouter.use(function(req, res, next) {
-	 		if(username !== 'admin') {
-	 			res.redirect('/');
-	 		}
-	 		next();
-	});*/
+	/*//toata ruta admin se securizeaza
+	adminRouter.use(function (req, res, next) {
+	  if(req.user) {	
+		var adminUser = req.user.username;
+				 if(adminUser !== 'admin') {
+				 	res.redirect('/');
+				 }
+			  } else {
+				res.redirect('/');
+			}
+		  next();		
+		});*/
+
 
 	adminRouter.route('/')
+				/*
+				//only routes for '/' will be secured
+				.all(function(req, res, next){
+					if(!req.user) {
+						res.redirect('/');	
+					}
+					next();
+				})*/
 
 				.get(function(req, res) {
 					res.render('adminView', {
@@ -86,6 +96,34 @@ var router = function (adminNav) {
 						adminNav: adminNav
 					});
 				});
+
+	
+	adminRouter.route('/manage-books')
+
+			    .get(function(req, res) {
+			    	
+					var url = '';
+					if(port === 3000) {	
+						url = 'mongodb://localhost/libraryApp';
+					} else {
+						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+					}	
+						mongodb.connect(url, function(err, db) {
+							var collection = db.collection('books');
+							
+							collection.find({}).toArray(
+								
+								function(err, results) {
+									res.render('manageBooks', {
+						    		title: 'Available books',
+						    		adminNav: adminNav,
+						    		books: results	
+						    		});
+								});
+						    });
+			    });
+
+
 
 	adminRouter.route('/addBooks')
 
