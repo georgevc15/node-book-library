@@ -124,8 +124,16 @@ var router = function (adminNav) {
 			    });
 
 
+	adminRouter.route('/add-books') 
+			   .get(function(req, res) {
+			   		res.render('adminAddBooks', {
+			   			title: 'Add books',
+			   			adminNav: adminNav
+			   			});
+			   		});
 
-	adminRouter.route('/addBooks')
+
+	adminRouter.route('/addBooksSubmit')
 
 				.get(function(req, res) {
 					
@@ -147,7 +155,8 @@ var router = function (adminNav) {
 					//res.send('inserting books');
 				});
 
-	adminRouter.route('/addAuthors')
+
+	adminRouter.route('/addAuthorsSubmit')
 
 				.get(function(req, res) {
 					
@@ -167,6 +176,7 @@ var router = function (adminNav) {
 							});
 						});
 				});
+
 
 	return adminRouter;
 };
