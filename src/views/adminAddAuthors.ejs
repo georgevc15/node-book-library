@@ -98,31 +98,37 @@
       <div class="panel">
         <div class="panel-body">
           
-  <a href="/admin/add-books" class="btn btn-danger">Add book</a>
 
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Genre</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-     <% for(var i=0; i<books.length; i++) {%>  
-      <tr>
-        <td><%=books[i].title%></td>
-        <td><%=books[i].author%></td>
-        <td><%=books[i].genre%></td>
-        <td><span class="badge">Edit</span></td>
-        <td><span class="badge">Delete</span></td>
-      </tr>
-     <%}%>  
 
-    </tbody>
-  </table>
+            <div class="col-md-6">
+        <div class="panel">
+          <div class="panel-body">
+              <form>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Author name</label>
+                  <input type="text" class="form-control" id="title" placeholder="Name">
+                </div>
+          <div class="form-group">
+              <label for="exampleInputPassword1">Genre</label>               
+                <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                </select>
+             </div>
+
+                <div class="form-group">
+                  <label for="exampleInputFile">Author picture</label>
+                  <input type="file" id="exampleInputFile">
+                  <p class="help-block">Recommended size image w:200px / h:100px</p>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+           </div>
+        </div>
+      </div>                          
 
 
         </div>

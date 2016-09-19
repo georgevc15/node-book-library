@@ -115,13 +115,39 @@ var router = function (adminNav) {
 								
 								function(err, results) {
 									res.render('manageBooks', {
-						    		title: 'Available books',
+						    		title: 'Manage books',
 						    		adminNav: adminNav,
 						    		books: results	
 						    		});
 								});
 						    });
 			    });
+
+
+	adminRouter.route('/manage-authors')
+	
+				.get(function(req, res) {
+					
+					var url = '';
+					if(port === 3000) {	
+						url = 'mongodb://localhost/libraryApp';
+					} else {
+						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+					}	
+
+					mongodb.connect(url, function(err, db) {
+						var collection = db.collection('authors');
+
+						collection.find({}).toArray(
+								function(err, results) {
+									res.render('adminManageAuthors', {
+									title: 'Manage authors',
+									adminNav: adminNav,
+									authors: results	
+							});		
+						});	
+					});
+				});			    
 
 
 	adminRouter.route('/add-books') 
@@ -131,6 +157,17 @@ var router = function (adminNav) {
 			   			adminNav: adminNav
 			   			});
 			   		});
+
+	
+
+	adminRouter.route('/add-authors') 
+			   .get(function(req, res) {
+			   		res.render('adminAddAuthors', {
+			   			title: 'Add authors',
+			   			adminNav: adminNav
+			   			});
+			   	});
+
 
 
 	adminRouter.route('/addBooksSubmit')
