@@ -50,7 +50,9 @@ var bookController = function(bookService, nav) {
 		mongodb.connect(url, function(err, db) {
 			var collection = db.collection('books');
 			
-			collection.findOne({_id: receivedId},
+			collection.findOne({
+					_id: receivedId
+				},
 				function(err, results) {
 					//console.log(results);
 					res.render('bookView', {
