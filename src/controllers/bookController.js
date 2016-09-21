@@ -54,12 +54,17 @@ var bookController = function(bookService, nav) {
 					_id: receivedId
 				},
 				function(err, results) {
-					//console.log(results);
-					res.render('bookView', {
+					
+				bookService.getBookById(results.bookId,
+					function(err, book) {
+						results.book = book;
+						res.render('bookView', {
     					title: 'Book details', 
     					nav: nav,
 	  					book: results
-    			});
+    					
+    				});
+				});
 			});
 		});
 	};

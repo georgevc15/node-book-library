@@ -7,21 +7,19 @@ var port = process.env.PORT || 3000;
 
 
 var router = function(nav) {
+	var bookService = require('../services/goodreadsService')();
+	var bookController = require('../controllers/bookController')(bookService, nav);
+	//securizeaza toata ruta
+	bookRouter.use(bookController.middlewareSecureRoute);
+	//end securizare
 
-var bookController = require('../controllers/bookController')(null, nav);
+	bookRouter.route('/')
+		.get(bookController.getIndex);
 
-//securizeaza toata ruta
-bookRouter.use(bookController.middlewareSecureRoute);
-//end securizare
+	bookRouter.route('/:id')
+		.get(bookController.getById);
 
-
-bookRouter.route('/')
-	.get(bookController.getIndex);
-
-bookRouter.route('/:id')
-	.get(bookController.getById);
-
-	return bookRouter;
+		return bookRouter;
 
 };
 
