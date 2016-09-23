@@ -7,15 +7,17 @@ var port = process.env.PORT || 3000;
 
 var books = [
 		{
-				title: 'Books 1',
-				genre: 'Genre 1',
-				author: 'Author 1',
+				title: 'War and Peace',
+				genre: 'Historical Fiction',
+				author: 'ALev Nikolayevich Tolstoy',
+				bookId: 656,
 				read: false
 		},
 		{
-				title: 'Books 2',
-				genre: 'Genre 2',
-				author: 'Author 2',
+				title: 'Les Misérables',
+				genre: 'Historical Fiction',
+				author: 'Victor Hugo',
+				bookId: 24280,
 				read: false
 		},
 		{
