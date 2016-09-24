@@ -153,13 +153,30 @@ var router = function (adminNav) {
 
 
 	adminRouter.route('/add-books') 
+			   
 			   .get(function(req, res) {
-			   		res.render('adminAddBooks', {
-			   			title: 'Add books',
-			   			adminNav: adminNav
-			   			});
-			   		});
 
+					var url = '';
+					if(port === 3000) {	
+						url = 'mongodb://localhost/libraryApp';
+					} else {
+						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+						
+					}
+
+					mongodb.connect(url, function(err, db) {
+						var collection = db.collection('authors');
+
+						collection.find({}).toArray(
+								function(err, results) {
+							   		res.render('adminAddBooks', {
+							   			title: 'Add books',
+							   			adminNav: adminNav,
+							   			authors: results
+							 });
+						});	
+			   		});
+				});
 	
 
 	adminRouter.route('/add-authors') 
