@@ -1,6 +1,7 @@
 var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
+var async = require('async');
 
 var port = process.env.PORT || 3000;
 
@@ -65,6 +66,20 @@ var authors = [
 			];
 
 
+var genres = [
+		{
+					type: 'History'
+		},
+		{
+					type: 'Science'
+		},
+		{
+					type: 'Fiction'
+		}
+			];
+
+
+
 
 var router = function (adminNav) {
 
@@ -104,12 +119,15 @@ var router = function (adminNav) {
 
 			    .get(function(req, res) {
 			    	
+					
 					var url = '';
 					if(port === 3000) {	
 						url = 'mongodb://localhost/libraryApp';
 					} else {
 						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 					}	
+
+					
 						mongodb.connect(url, function(err, db) {
 							var collection = db.collection('books');
 							
@@ -145,7 +163,7 @@ var router = function (adminNav) {
 									res.render('adminManageAuthors', {
 									title: 'Manage authors',
 									adminNav: adminNav,
-									authors: results	
+									authors: results
 							});		
 						});	
 					});
@@ -164,20 +182,39 @@ var router = function (adminNav) {
 						
 					}
 
-					mongodb.connect(url, function(err, db) {
-						var collection = db.collection('authors');
+					async.parallel([
 
-						collection.find({}).toArray(
-								function(err, results) {
-							   		res.render('adminAddBooks', {
-							   			title: 'Add books',
-							   			adminNav: adminNav,
-							   			authors: results
-							 });
-						});	
-			   		});
+						function(callback) {
+								mongodb.connect(url, function(err, db) {
+									var collection = db.collection('authors');
+								    collection.find({}).toArray(function(err,items) {
+         							  if(err) {
+         							  	callback(err);
+         							  } else {
+         							  	callback(null, items);
+         							 	 }
+       								 });
+								});
+							 },
+
+						function(callback) {
+							callback(null, genres);
+						} 
+
+							], function(err, results) {
+							   
+							    //res.send('lorem');
+							    res.render('adminAddBooks', { 
+							    	title: 'Add books',
+							   		adminNav: adminNav,
+							   		authors: results[0],
+							    	genres : results[1]
+							    });
+							});
+
 				});
 	
+
 
 	adminRouter.route('/add-authors') 
 			   .get(function(req, res) {
@@ -191,9 +228,9 @@ var router = function (adminNav) {
 
 	adminRouter.route('/addBooksSubmit')
 
-				.get(function(req, res) {
+				.post(function(req, res) {
 					
-					var url = '';
+					/*var url = '';
 					if(port === 3000) {	
 						url = 'mongodb://localhost/libraryApp';
 					} else {
@@ -207,8 +244,11 @@ var router = function (adminNav) {
 								res.send(results);
 								db.close();
 							});
-					});
+					});*/
 					//res.send('inserting books');
+
+					res.sendStatus(200);
+
 				});
 
 
@@ -223,14 +263,19 @@ var router = function (adminNav) {
 						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 					}	
 
-					mongodb.connect(url, function(err, db) {
+					/*mongodb.connect(url, function(err, db) {
 						var collection = db.collection('authors');
 						collection.insertMany(authors,
 							function(err, results) {
 								res.send(results);
 								db.close();
 							});
-						});
+						});*/
+
+
+
+
+
 				});
 
 
