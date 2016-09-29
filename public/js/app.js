@@ -23,8 +23,10 @@ $(function() {
 	         console.log('eroare');	
 		 })
 		 .success(function(serverResponse) {
-			console.log('success');
-			console.log(serverResponse);
+		    //window.location.replace("/admin/manage-books");
+		 	$("#shmeswrap").show().delay(5000).fadeOut();
+		 	$("#shmes").html(serverResponse['message']);
+		 	$('#add-books').trigger("reset");
 		});
 
 	});

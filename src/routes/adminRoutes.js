@@ -41,7 +41,6 @@ var books = [
 		}
 			];
 
-
 var authors = [
 		{
 				name: 'Author 1',
@@ -230,14 +229,15 @@ var router = function (adminNav) {
 
 				.post(function(req, res) {
 					
-					/*var url = '';
+					var url = '';
 					if(port === 3000) {	
 						url = 'mongodb://localhost/libraryApp';
 					} else {
 						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 					}	
-					
-					mongodb.connect(url, function(err, db) {
+					var newBook = req.body;
+
+					/*mongodb.connect(url, function(err, db) {
 						var collection = db.collection('books');
 						collection.insertMany(books, 
 							function(err, results){
@@ -245,9 +245,19 @@ var router = function (adminNav) {
 								db.close();
 							});
 					});*/
-					//res.send('inserting books');
 
-					res.sendStatus(200);
+					mongodb.connect(url, function(err, db) {
+						var collection = db.collection('books');
+						collection.insert(newBook,
+							function(err, results) {
+								res.send({'message': 'Book added'});
+								db.close();
+							});
+					});	
+
+
+					//console.log(newBook);
+					//res.sendStatus(200);
 
 				});
 
