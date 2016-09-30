@@ -98,24 +98,25 @@
       <div class="panel">
         <div class="panel-body">
           
-
+      <div class="col-md-12" id="shmeswrap" style="display: none;">
+        <div class="alert alert-success" id="shmes">
+        </div>
+      </div>
 
             <div class="col-md-6">
         <div class="panel">
           <div class="panel-body">
-              <form>
+              <form id='add-authors'>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Author name</label>
-                  <input type="text" class="form-control" id="title" placeholder="Name">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                 </div>
           <div class="form-group">
-              <label for="exampleInputPassword1">Genre</label>               
-                <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+              <label for="genre" name="genre">Genre</label>               
+                <select class="form-control" name='genre'>
+                  <% for(var i=0; i<genres.length;i++){%>
+                   <option id="<%=genres[i].type%>"><%=genres[i].type%></a></li>
+                  <%}%>
                 </select>
              </div>
 

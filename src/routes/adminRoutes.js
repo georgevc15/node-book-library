@@ -217,9 +217,11 @@ var router = function (adminNav) {
 
 	adminRouter.route('/add-authors') 
 			   .get(function(req, res) {
+			   		
 			   		res.render('adminAddAuthors', {
 			   			title: 'Add authors',
-			   			adminNav: adminNav
+			   			adminNav: adminNav,
+			   			genres: genres
 			   			});
 			   	});
 
@@ -255,16 +257,14 @@ var router = function (adminNav) {
 							});
 					});	
 
-
 					//console.log(newBook);
 					//res.sendStatus(200);
-
 				});
 
 
 	adminRouter.route('/addAuthorsSubmit')
 
-				.get(function(req, res) {
+				.post(function(req, res) {
 					
 					var url = '';
 					if(port === 3000) {	
@@ -273,19 +273,21 @@ var router = function (adminNav) {
 						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 					}	
 
-					/*mongodb.connect(url, function(err, db) {
-						var collection = db.collection('authors');
-						collection.insertMany(authors,
-							function(err, results) {
-								res.send(results);
-								db.close();
-							});
-						});*/
-
-
-
-
-
+					var newAuthor = req.body;
+					//console.log(newAuthor);
+					//console.log(newAuthor.name +'---'+newAuthor.genre);
+                     if(newAuthor.name && newAuthor.genre) {
+						mongodb.connect(url, function(err, db) {
+							var collection = db.collection('authors');
+							collection.insert(newAuthor,
+								function(err, results) {
+									res.send({'message': 'Author added'});
+									db.close();
+								});
+						 });
+								} else {
+								res.send({'message': 'Please fill in all required fields'});
+							} 
 				});
 
 
