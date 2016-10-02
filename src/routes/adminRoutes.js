@@ -2,6 +2,7 @@ var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 var async = require('async');
+var ObjectId = require('mongodb').ObjectID;
 
 var port = process.env.PORT || 3000;
 
@@ -288,6 +289,55 @@ var router = function (adminNav) {
 								} else {
 								res.send({'message': 'Please fill in all required fields'});
 							} 
+				});
+
+	adminRouter.route('/delete-book/:id')
+
+			.delete(function(req, res) {
+					
+				var receivedId = new ObjectId(req.params.id);
+
+					var url = '';
+						if(port === 3000) {	
+							url = 'mongodb://localhost/libraryApp';
+						} else {
+							url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+						}	
+
+						if(receivedId) 	{
+							mongodb.connect(url, function(err, db)	{
+								var collection = db.collection('books');
+								collection.remove( {'_id': receivedId});
+								res.sendStatus(200);
+						});
+								} else {
+									res.sendStatus(404);
+						}
+				});
+
+
+			adminRouter.route('/delete-author/:id')
+
+			.delete(function(req, res) {
+					
+				var receivedId = new ObjectId(req.params.id);
+
+					var url = '';
+						if(port === 3000) {	
+							url = 'mongodb://localhost/libraryApp';
+						} else {
+							url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+						}	
+
+						if(receivedId) 	{
+							mongodb.connect(url, function(err, db)	{
+								var collection = db.collection('authors');
+								collection.remove( {'_id': receivedId});
+								res.sendStatus(200);
+						});
+								} else {
+									res.sendStatus(404);
+						}
 				});
 
 

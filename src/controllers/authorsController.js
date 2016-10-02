@@ -47,7 +47,7 @@ var getAuthor = function(req, res) {
 
 			collection.findOne({_id: receivedId},
 					function(err, results) {
-						console.log(results);
+						//console.log(results);
 						res.render('authorView', {
 							title: 'Author details',
 							nav: nav,
