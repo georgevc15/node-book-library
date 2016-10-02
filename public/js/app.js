@@ -10,7 +10,7 @@ $(function() {
 	   var dev  = /localhost/.test(currentUrl);
 
 
-	   if(dev == true) {  var serverLink = '/admin/addBooksSubmit';  } else {  var serverLink = 'production';   }
+	   if(dev == true) {  var serverLink = '/admin/addBooksSubmit';  } else {  var serverLink = '/admin/addBooksSubmit';   }
 		
 
 	  
