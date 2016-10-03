@@ -34,10 +34,11 @@ var bookRouter = require('./src/routes/booksRoutes')(nav);
 var adminRouter = require('./src/routes/adminRoutes')(adminNav);
 var authRouter = require('./src/routes/authRoutes')(nav);
 var authorsRouter = require('./src/routes/authorsRoutes')(nav);
+var searchRouter = require('./src/routes/searchRoutes')(nav);
 
 
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({extended: false })); // parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({extended: true })); // parse application/x-www-form-urlencoded 
 app.use(bodyParser.json()); // parse application/json 
 
 
@@ -65,6 +66,7 @@ app.use('/Books', bookRouter);
 app.use('/admin', adminRouter);
 app.use('/Auth', authRouter);
 app.use('/Authors', authorsRouter);
+app.use('/search', searchRouter);
 //app.use('/Authors', passport.authenticationMiddleware(), authorsRouter);
 
 
@@ -125,8 +127,6 @@ var mongodb = require('mongodb').MongoClient;
              });
     }));
  //end authenthification
-
-
 
 app.listen(port, function(err) {
     console.log('Server running on port ' + port);

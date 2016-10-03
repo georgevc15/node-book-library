@@ -65,7 +65,7 @@ var bookController = function(bookService, nav) {
 				    			  });
 							});
 
-							} else {
+								} else {
 									res.render('bookView', {
 			    					title: 'Book details', 
 			    					nav: nav,
