@@ -45,8 +45,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
           <ul class="dropdown-menu" style="padding:12px;">
-            <form class="form-inline">
-              <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
+            <form class="form-inline" action="search"  method="GET">
+              <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button>
+              <input type="text" class="form-control pull-left" placeholder="Search" name="qs" id="qs">
             </form>
           </ul>
         </li>
@@ -102,7 +103,14 @@
               <div class="row">    
                 <br>
                 <div class="col-md-2 col-sm-3 text-center">
-                  <a class="story-title" href="#"><img alt="" src="<%=book.book.image_url%>" style="width:100px;height:100px" class="img-circle"></a>
+                  <a class="story-title" href="#">
+                  <% if(apiImg =='yes') {%>
+                      <img alt="" src="<%=book.book.image_url%>" style="width:100px;height:100px" class="img-circle">
+                  <% } else { %>
+                      no picture
+                   <% } %>
+
+                  </a>
                 </div>
                 <div class="col-md-10 col-sm-9">
                   <h3><%=book.title%></h3>
@@ -115,7 +123,11 @@
                     </div>
                     <div class="col-xs-3"></div>
                   </div>
-                  <br><%-book.book.description%><br>
+                 <% if(apiImg =='yes') {%>
+                      <br><%-book.book.description%><br>
+                  <% } else { %>
+                      no description
+                   <% } %>
                 </div>
               </div>
               <hr>

@@ -13,17 +13,20 @@ var searchController = function(nav) {
 			url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 	    }	
 
-
+		
 	    mongodb.connect(url, function(err, db) {
 	    	var collection = db.collection('books');
-
-			var a = req.param('qs');
-		
-			collection.find({'title': a}).toArray(
+        
+			var qsSearchedBook = req.query.qs;
+			 console.log(qsSearchedBook);
+			//collection.find({'title': qsSearchedBook}).toArray(
+			 collection.find({  '$text': {
+      						'$search': qsSearchedBook
+  			  }}).toArray(
 
 				function(err, results) {
 					 console.log(results);
-					 res.render('search', {
+					 res.render('bookListView', {
 					 title: 'Search',
 					 nav: nav,
 					 books: results	

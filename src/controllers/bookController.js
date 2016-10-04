@@ -61,7 +61,8 @@ var bookController = function(bookService, nav) {
 									res.render('bookView', {
 			    					title: 'Book details', 
 			    					nav: nav,
-				  					book: results
+				  					book: results,
+				  					apiImg: 'yes'
 				    			  });
 							});
 
@@ -69,7 +70,8 @@ var bookController = function(bookService, nav) {
 									res.render('bookView', {
 			    					title: 'Book details', 
 			    					nav: nav,
-				  					book: results
+				  					book: results,
+				  					apiImg: 'no'
 				    			  });
 								}					
 							});
