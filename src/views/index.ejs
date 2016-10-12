@@ -101,30 +101,38 @@
           <!--/sign in form-->
           <div class="row">    
             <br>
-            <div class="col-md-2 col-sm-3 text-center">
-                Sign in
-                <form name="signInForm" action="/Auth/signIn" method="post">
-                  <input name="username" id="username" type="text" placeholder="username" />
-                  <input name="password" id="password" type="password" placeholder="password"/>
-                  <input type="submit" name="Sign in" value="Sign In">
-                </form>
+            <div class="col-md-6 col-sm-6">
+                <div class="col-md-12">Sign in</div>
+                   <div class="form-group">
+                    <form name="signInForm" action="/Auth/signIn" method="post">
+                      <div class="form-group">
+                        <input name="username" id="username" type="text" placeholder="username" class="form-control"/>
+                      </div>
+                      <div class="form-group">
+                       <input name="password" id="password" type="password" placeholder="password" class="form-control"/>
+                       </div>
+                      <hr/>
+                      <input type="submit" name="Sign in" value="Sign In" class="btn btn-default">
+                    </form>
+                  </div>
             </div>
-            <div class="col-md-10 col-sm-9">
-                Sign Up
-                <form name="signUpForm" action="/Auth/signUp" method="post">
-                  <input name="username" id="username" type="text" placeholder="Your username" />
-                  <input name="password" id="password" type="password" placeholder="Your password"/>
-                  <input type="submit" name="Sign up" value="Sign Up">
-                </form>
+           
+
+            <div class="col-md-6 col-sm-6">
+                 <div class="col-md-12">Sign up</div>
+                      <form name="signUpForm" action="/Auth/signUp" method="post">
+                         <div class="form-group"> 
+                          <input name="username" id="username" type="text" placeholder="Enter username" class="form-control"/>
+                          </div>
+                          <div class="form-group">
+                         <input name="password" id="password" type="password" placeholder="Enter a password" class="form-control"/>
+                         </div>
+                        <input type="submit" name="Sign up" value="Sign Up" class="btn btn-default">
+                        <hr/>
+                      </form>
             </div>
-          </div>
-          
+          </div>    
           <!--/end sign in form-->
-          
-          
-          <a href="/" class="btn btn-primary pull-right btnNext">More <i class="glyphicon glyphicon-chevron-right"></i></a>
-        
-          
         </div>
       </div>
                                                                                        
