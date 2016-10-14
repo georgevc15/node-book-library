@@ -54,13 +54,13 @@ var getAuthor = function(req, res) {
 							author: results
 						});
 				 });
-			});
+		 	});
 	};
 
 
 var booksBelongingToAnAuthor = function(req,res) {
-	 	var authorName = req.params.name;
-
+	 	
+		var receivedId = req.params.id;
 	 	var url = '';
 		if(port === 3000) {	
 			url = 'mongodb://localhost/libraryApp';
@@ -68,20 +68,21 @@ var booksBelongingToAnAuthor = function(req,res) {
 			url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
 		}	
 
-		mongodb.connect(url, function(err, db)	{
-			var collection = db.collection('authors');
 
-			collection.find({author: authorName},
-					function(err, results) {
-						//console.log(results);
-						res.send('Cartii care apartin unui autor');
-						//res.render('authorView', {
-							//title: 'vook belonging to ',
-						//	nav: nav,
-							//author: results
-						//});
-				 });
-		 });
+				mongodb.connect(url, function(err, db) {
+					var collection = db.collection('books');
+					collection.find({author:receivedId}).toArray(
+						
+						function(err, results) {
+							console.log(results);
+							res.render('bookListView', {
+		    					title: 'Available books', 
+		    					nav: nav,
+			  					books: results
+		    			});
+
+					});
+			});
 	};
 
 

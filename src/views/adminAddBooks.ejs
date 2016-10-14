@@ -126,7 +126,7 @@
                 <label for="exampleInputPassword1">Author</label>
                <select class="form-control" name='author'>   
             <% for(var i=0; i<authors.length;i++){%>
-             <option id="<%=authors[i].id%>"><%=authors[i].name%></a></li>
+             <option value="<%=authors[i]._id%>"><%=authors[i].name%></a></li>
             <%}%>
             </select>
             </div>

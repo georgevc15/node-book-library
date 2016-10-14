@@ -18,7 +18,7 @@ authorsRouter.route('/:id')
 	.get(authorsController.getAuthor);
 
 
-authorsRouter.route('/books/:name')
+authorsRouter.route('/books/:id')
 	 .get(authorsController.booksBelongingToAnAuthor);	 	
 
 
