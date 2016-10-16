@@ -18,18 +18,18 @@ var searchController = function(nav) {
 	    	var collection = db.collection('books');
         
 			var qsSearchedBook = req.query.qs;
-			 console.log(qsSearchedBook);
+			 //console.log(qsSearchedBook);
 			//collection.find({'title': qsSearchedBook}).toArray(
 			 collection.find({  '$text': {
       						'$search': qsSearchedBook
   			  }}).toArray(
 
 				function(err, results) {
-					 console.log(results);
 					 res.render('bookListView', {
 					 title: 'Search',
 					 nav: nav,
-					 books: results	
+					 books: results,
+					 message: ''	
 					 });
 				});
 	   		});

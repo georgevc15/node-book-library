@@ -73,13 +73,22 @@ var booksBelongingToAnAuthor = function(req,res) {
 					var collection = db.collection('books');
 					collection.find({author:receivedId}).toArray(
 						
-						function(err, results) {
-							console.log(results);
+					  function(err, results) {
+						if (results.length !== 0) {	
 							res.render('bookListView', {
-		    					title: 'Available books', 
-		    					nav: nav,
-			  					books: results
-		    			});
+			    					title: 'Available books', 
+			    					nav: nav,
+				  					books: results,
+				  					message: ''
+			    			});
+			    		} else {
+						res.render('bookListView', {
+			    					title: 'Available books', 
+			    					nav: nav,
+				  					books: results,
+				  					message: 'There are no books written by this author'
+			    			});
+			    		}
 
 					});
 			});

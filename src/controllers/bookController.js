@@ -26,13 +26,24 @@ var bookController = function(bookService, nav) {
 			collection.find({}).toArray(
 				
 				function(err, results) {
-					res.render('bookListView', {
-    					title: 'Available books', 
-    					nav: nav,
-	  					books: results
-    			});
-
+					
+					if(results) {
+								res.render('bookListView', {
+			    					title: 'Available books', 
+			    					nav: nav,
+				  					books: results,
+				  					message: ''
+			    			});
+						} else {
+								res.render('bookListView', {
+						    					title: 'Available books', 
+						    					nav: nav,
+							  					books: results,
+							  					message: 'No vailable books'
+						    		});
+							}
 			});
+
 		});
 	};
 
