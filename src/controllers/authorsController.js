@@ -7,27 +7,27 @@ var authorsController =  function(nav) {
 
 	var getIndex = function(req, res) {
 		
-	var url = '';
-	if(port === 3000) {	
-		url = 'mongodb://localhost/libraryApp';
-	} else {
-		url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
-	}	
+		var url = '';
+		if(port === 3000) {	
+			url = 'mongodb://localhost/libraryApp';
+		} else {
+			url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+		}	
 
-	mongodb.connect(url, function(err, db) {
-		var collection = db.collection('authors');
+		mongodb.connect(url, function(err, db) {
+			var collection = db.collection('authors');
 
-		collection.find({}).toArray(
-			
-			function(err, results) {
-				res.render('authorsListView', {
-						title: 'Authors',
-						nav: nav,
-						authors: results
-				});
+			collection.find({}).toArray(
+				
+				function(err, results) {
+					res.render('authorsListView', {
+							title: 'Authors',
+							nav: nav,
+							authors: results
+					});
 
-			});	
-		});
+				});	
+			});
 	};
 
 	

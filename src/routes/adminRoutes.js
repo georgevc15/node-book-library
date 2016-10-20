@@ -1,7 +1,6 @@
 var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
-var async = require('async');
 var ObjectId = require('mongodb').ObjectID;
 
 var port = process.env.PORT || 3000;
@@ -78,9 +77,7 @@ var genres = [
 		}
 			];
 
-
-
-
+	
 var router = function (adminNav) {
 
 	/*//toata ruta admin se securizeaza
@@ -96,8 +93,12 @@ var router = function (adminNav) {
 		  next();		
 		});*/
 
+var adminController = require('../controllers/adminController')(adminNav, genres);
 
 	adminRouter.route('/')
+		.get(adminController.getIndex);
+				
+
 				/*
 				//only routes for '/' will be secured
 				.all(function(req, res, next){
@@ -105,163 +106,34 @@ var router = function (adminNav) {
 						res.redirect('/');	
 					}
 					next();
-				})*/
+				})
 
 				.get(function(req, res) {
 					res.render('adminView', {
 						title: 'Admin page',
 						adminNav: adminNav
 					});
-				});
+				});*/
 
 	
 	adminRouter.route('/manage-books')
-
-			    .get(function(req, res) {
-			    	
-					
-					var url = '';
-					if(port === 3000) {	
-						url = 'mongodb://localhost/libraryApp';
-					} else {
-						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
-					}	
-
-					
-						mongodb.connect(url, function(err, db) {
-							var collection = db.collection('books');
-							
-							collection.find({}).toArray(
-								
-								function(err, results) {
-									res.render('manageBooks', {
-						    		title: 'Manage books',
-						    		adminNav: adminNav,
-						    		books: results	
-						    		});
-								});
-						    });
-			    });
+			    .get(adminController.manageBooks);
 
 
 	adminRouter.route('/manage-authors')
-	
-				.get(function(req, res) {
-					
-					var url = '';
-					if(port === 3000) {	
-						url = 'mongodb://localhost/libraryApp';
-					} else {
-						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
-					}	
-
-					mongodb.connect(url, function(err, db) {
-						var collection = db.collection('authors');
-
-						collection.find({}).toArray(
-								function(err, results) {
-									res.render('adminManageAuthors', {
-									title: 'Manage authors',
-									adminNav: adminNav,
-									authors: results
-							});		
-						});	
-					});
-				});			    
+				.get(adminController.manageAuthors);			    
 
 
 	adminRouter.route('/add-books') 
-			   
-			   .get(function(req, res) {
-
-					var url = '';
-					if(port === 3000) {	
-						url = 'mongodb://localhost/libraryApp';
-					} else {
-						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
-						
-					}
-
-					async.parallel([
-
-						function(callback) {
-								mongodb.connect(url, function(err, db) {
-									var collection = db.collection('authors');
-								    collection.find({}).toArray(function(err,items) {
-         							  if(err) {
-         							  	callback(err);
-         							  } else {
-         							  	callback(null, items);
-         							 	 }
-       								 });
-								});
-							 },
-
-						function(callback) {
-							callback(null, genres);
-						} 
-
-							], function(err, results) {
-							   
-							    //res.send('lorem');
-							    res.render('adminAddBooks', { 
-							    	title: 'Add books',
-							   		adminNav: adminNav,
-							   		authors: results[0],
-							    	genres : results[1]
-							    });
-							});
-
-				});
+			   .get(adminController.addBooks);
 	
 
-
 	adminRouter.route('/add-authors') 
-			   .get(function(req, res) {
-			   		
-			   		res.render('adminAddAuthors', {
-			   			title: 'Add authors',
-			   			adminNav: adminNav,
-			   			genres: genres
-			   			});
-			   	});
-
+			   .get(adminController.addAuthor);
 
 
 	adminRouter.route('/addBooksSubmit')
-
-				.post(function(req, res) {
-					
-					var url = '';
-					if(port === 3000) {	
-						url = 'mongodb://localhost/libraryApp';
-					} else {
-						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
-					}	
-					var newBook = req.body;
-
-					/*mongodb.connect(url, function(err, db) {
-						var collection = db.collection('books');
-						collection.insertMany(books, 
-							function(err, results){
-								res.send(results);
-								db.close();
-							});
-					});*/
-
-					mongodb.connect(url, function(err, db) {
-						var collection = db.collection('books');
-						collection.insert(newBook,
-							function(err, results) {
-								res.send({'message': 'Book added'});
-								db.close();
-							});
-					});	
-
-					//console.log(newBook);
-					//res.sendStatus(200);
-				});
-
+				.post(adminController.addBookSubmit);
 
 	adminRouter.route('/addAuthorsSubmit')
 
@@ -275,8 +147,6 @@ var router = function (adminNav) {
 					}	
 
 					var newAuthor = req.body;
-					//console.log(newAuthor);
-					//console.log(newAuthor.name +'---'+newAuthor.genre);
                      if(newAuthor.name && newAuthor.genre) {
 						mongodb.connect(url, function(err, db) {
 							var collection = db.collection('authors');
