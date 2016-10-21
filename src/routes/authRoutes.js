@@ -6,7 +6,7 @@ var passport = require('passport');
 
 var port = process.env.PORT || 3000;
 
-var router = function() {
+var router = function(nav) {
 	authRouter.route('/signUp')
 		.post(function (req, res) {
 			
@@ -35,10 +35,10 @@ var router = function() {
 			});
 
 	authRouter.route('/signIn')
-		.post(passport.authenticate('local', { //gere we can you instead of local google or facebook etc
+		.post(passport.authenticate('local', { 
 			failureRedirect: '/'
 		}), function(req, res) { 
-			res.redirect('/auth/profile');
+				res.redirect('/auth/profile');
 		});	
 
 	authRouter.route('/profile')

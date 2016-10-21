@@ -154,13 +154,87 @@ var adminController = function(adminNav, genres) {
 				};		   	
 
 
+	var addAuthorSubmit = function(req, res) {
+					
+					var url = '';
+					if(port === 3000) {	
+						url = 'mongodb://localhost/libraryApp';
+					} else {
+						url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+					}	
+
+					var newAuthor = req.body;
+                     if(newAuthor.name && newAuthor.genre) {
+						mongodb.connect(url, function(err, db) {
+							var collection = db.collection('authors');
+							collection.insert(newAuthor,
+								function(err, results) {
+									res.send({'message': 'Author added'});
+									db.close();
+								});
+						 });
+								} else {
+								res.send({'message': 'Please fill in all required fields'});
+							} 
+				};
+
+	var deleteBook = function(req, res) {
+					
+				var receivedId = new ObjectId(req.params.id);
+
+					var url = '';
+						if(port === 3000) {	
+							url = 'mongodb://localhost/libraryApp';
+						} else {
+							url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+						}	
+
+						if(receivedId) 	{
+							mongodb.connect(url, function(err, db)	{
+								var collection = db.collection('books');
+								collection.remove( {'_id': receivedId});
+								res.sendStatus(200);
+						});
+								} else {
+									res.sendStatus(404);
+						}
+				};			
+
+
+	var deleteAuthor = 	function(req, res) {
+					
+				var receivedId = new ObjectId(req.params.id);
+
+					var url = '';
+						if(port === 3000) {	
+							url = 'mongodb://localhost/libraryApp';
+						} else {
+							url = 'mongodb://book_usr:book_pass@ds161475.mlab.com:61475/book-store';
+						}	
+
+						if(receivedId) 	{
+							mongodb.connect(url, function(err, db)	{
+								var collection = db.collection('authors');
+								collection.remove( {'_id': receivedId});
+								res.sendStatus(200);
+						});
+								} else {
+									res.sendStatus(404);
+						}
+				};		
+
+
+
 	return {
 		getIndex: getIndex,
 		manageBooks: manageBooks,
 		manageAuthors: manageAuthors,
 		addBooks: addBooks,
 		addAuthor: addAuthor,
-		addBookSubmit: addBookSubmit
+		addBookSubmit: addBookSubmit,
+		addAuthorSubmit: addAuthorSubmit,
+		deleteBook: deleteBook,
+		deleteAuthor: deleteAuthor
 	};
 };
 
